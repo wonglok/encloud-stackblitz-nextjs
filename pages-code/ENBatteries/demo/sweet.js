@@ -12,7 +12,6 @@ export const title = `${FolderName}.sweet`;
 
 export const effect = async node => {
   let scene = await node.ready.scene;
-
   let camera = await node.ready.camera;
   let renderer = await node.ready.gl;
   let raycaster = await node.ready.raycaster;
