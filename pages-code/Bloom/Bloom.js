@@ -1,24 +1,24 @@
-import { useFrame, useThree } from "@react-three/fiber";
-import { useMemo } from "react";
+import { useFrame, useThree } from '@react-three/fiber';
+import { useMemo } from 'react';
 import {
   sRGBEncoding,
   Layers,
   MeshBasicMaterial,
   Vector2,
   ShaderMaterial,
-  Color,
-} from "three";
+  Color
+} from 'three';
 
 // import { useTools } from "../useTools/useTools";
 
 export const ENTIRE_SCENE = 0;
 export const BLOOM_SCENE = 1;
 
-export const enableBloom = (item) => {
+export const enableBloom = item => {
   item.layers.enable(BLOOM_SCENE);
 };
 
-export default function Bloom() {
+export function Bloom() {
   // let tool = useTools();
   let { gl, size, scene, camera } = useThree();
   //
@@ -26,11 +26,11 @@ export default function Bloom() {
     // baseRTT,
     //
     bloomComposer,
-    finalComposer,
+    finalComposer
   } = useMemo(() => {
     let {
-      EffectComposer,
-    } = require("three/examples/jsm/postprocessing/EffectComposer");
+      EffectComposer
+    } = require('three/examples/jsm/postprocessing/EffectComposer');
 
     // let baseRTT = new WebGLRenderTarget(size.width, size.height, {
     //   encoding: sRGBEncoding,
@@ -42,14 +42,14 @@ export default function Bloom() {
     let sizeV2 = new Vector2(window.innerWidth, window.innerHeight);
 
     let {
-      RenderPass,
-    } = require("three/examples/jsm/postprocessing/RenderPass");
+      RenderPass
+    } = require('three/examples/jsm/postprocessing/RenderPass');
     let renderPass = new RenderPass(scene, camera);
     bloomComposer.addPass(renderPass);
 
     let {
-      UnrealBloomPass,
-    } = require("three/examples/jsm/postprocessing/UnrealBloomPass.js");
+      UnrealBloomPass
+    } = require('three/examples/jsm/postprocessing/UnrealBloomPass.js');
     let unrealPass = new UnrealBloomPass(sizeV2, 1.5, 0.6, 0.5);
     unrealPass.renderToScreen = true;
     unrealPass.strength = 1.0;
@@ -59,7 +59,7 @@ export default function Bloom() {
         unrealPass.strength = 3 * (low + mid + high);
       }
     };
-    window.addEventListener("audio-info", audio);
+    window.addEventListener('audio-info', audio);
     // window.removeEventListener("audio-info", audio);
 
     unrealPass.threshold = 0.05;
@@ -80,8 +80,8 @@ export default function Bloom() {
     finalComposer.renderTarget1.texture.encoding = sRGBEncoding;
 
     let {
-      ShaderPass,
-    } = require("three/examples/jsm/postprocessing/ShaderPass.js");
+      ShaderPass
+    } = require('three/examples/jsm/postprocessing/ShaderPass.js');
     // let bloomTexture = {
     //   value: bloomComposer.renderTarget2.texture,
     // };
@@ -90,8 +90,8 @@ export default function Bloom() {
         uniforms: {
           baseTexture: { value: null },
           bloomTexture: {
-            value: bloomComposer.renderTarget2.texture,
-          },
+            value: bloomComposer.renderTarget2.texture
+          }
         },
         vertexShader: /* glsl */ `
           varying vec2 vUv;
@@ -110,9 +110,9 @@ export default function Bloom() {
             gl_FragColor = ( texture2D( baseTexture, vUv ) * 1.0 + 1.0 * texture2D( bloomTexture, vUv ) );
           }
         `,
-        defines: {},
+        defines: {}
       }),
-      "baseTexture"
+      'baseTexture'
     );
     //
 
@@ -120,7 +120,7 @@ export default function Bloom() {
     finalComposer.addPass(finalPass);
 
     window.addEventListener(
-      "resize",
+      'resize',
       () => {
         let dpr = gl.getPixelRatio();
 
@@ -135,18 +135,18 @@ export default function Bloom() {
       false
     );
 
-    window.dispatchEvent(new CustomEvent("resize"));
+    window.dispatchEvent(new CustomEvent('resize'));
 
     return {
       bloomComposer,
-      finalComposer,
+      finalComposer
     };
   }, []);
 
   // let materials = {};
   const darkMaterial = new MeshBasicMaterial({
-    color: "black",
-    skinning: true,
+    color: 'black',
+    skinning: true
   });
 
   const bloomLayer = new Layers();
@@ -172,7 +172,7 @@ export default function Bloom() {
     // }
   }
 
-  let run = (dt) => {
+  let run = dt => {
     let origBG = scene.background;
 
     //
@@ -191,5 +191,5 @@ export default function Bloom() {
     run(dt);
   }, 1);
 
-  return <group></group>;
+  return <group />;
 }

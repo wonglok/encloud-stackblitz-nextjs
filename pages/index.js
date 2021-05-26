@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useEffect } from 'react';
 import { ENRuntime, BASEURL_REST } from '../pages-code/ENCloudSDK/ENRuntime';
 import { EnvMap } from '../pages-code/EnvMap/EnvMap';
-// import { Bloom } from '../pages-code/Bloom/Bloom.js';
+import { Bloom } from '../pages-code/Bloom/Bloom.js';
 
 let getProjectJSON = () => {
   return {
@@ -103,7 +103,7 @@ export default function Home({ buildTimeCache }) {
         <EnvMap />
 
         {/*  */}
-        {/* <Bloom /> */}
+        <Bloom />
 
         {/* <Sphere position-x={-1} args={[1, 25, 25]}>
           <meshStandardMaterial

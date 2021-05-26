@@ -8,6 +8,8 @@ import {
 } from 'three';
 
 import { FolderName } from './index.js';
+import { enableBloom } from '../../Bloom/Bloom.js';
+
 export const title = `${FolderName}.sweet`;
 
 export const effect = async node => {
@@ -32,6 +34,8 @@ export const effect = async node => {
   let mesh = new Mesh(geo, mat);
   mesh.scale.z = 0.5;
   mesh.scale.multiplyScalar(0.33);
+
+  enableBloom(mesh);
 
   node.onLoop((t, dt) => {
     mesh.rotation.y += Math.sin(t * 3) * dt * Math.PI * 2.0;
