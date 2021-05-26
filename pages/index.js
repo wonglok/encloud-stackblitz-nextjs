@@ -94,10 +94,10 @@ export default function Home({ buildTimeCache }) {
         <EffectNode projectJSON={buildTimeCache || getProjectJSON()} />
 
         {/*  */}
-        <directionalLight position={[10, 10, 10]} intensity={0.1} />
+        <directionalLight position={[10, 10, 10]} intensity={0.2} />
 
         {/*  */}
-        <ambientLight intensity={0.1} />
+        <ambientLight intensity={0.2} />
 
         {/*  */}
         <EnvMap />
