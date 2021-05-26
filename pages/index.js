@@ -4,20 +4,21 @@ import Head from 'next/head';
 import { useEffect } from 'react';
 import { ENRuntime, BASEURL_REST } from '../pages-code/ENCloudSDK/ENRuntime';
 import { EnvMap } from '../pages-code/EnvMap/EnvMap';
+// import { Bloom } from '../pages-code/Bloom/Bloom.js';
 
 let getProjectJSON = () => {
   return {
     published: true,
-    displayName: 'encloud-template-nextjs',
-    _id: '60a6ebc7d80d490008f8ab95',
+    displayName: 'encloud-stackblitz-nextjs',
+    _id: '60aedaf6f7be030009663f23',
     username: 'wonglok831',
     userID: '609b49ad59f39c00098c34ea',
-    slug: 'encloud-template-nextjs',
-    created_at: '2021-05-20T23:07:51.465Z',
-    updated_at: '2021-05-26T01:37:33.796Z',
+    slug: 'encloud-stackblitz-nextjs',
+    created_at: '2021-05-26T23:34:14.239Z',
+    updated_at: '2021-05-26T23:34:42.847Z',
     __v: 0,
     largeString:
-      '{"_id":"60a6ebc7d80d490008f8ab95","blockers":[{"_id":"_3t5xs1ff71m297xsba","position":[252.76804316967952,-0.0000012207032540345608,10.44691969525463],"title":"happyshare.demo"}],"ports":[{"_id":"_mhmyeendbd4o8fa1ro","type":"input","idx":0,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_q2ycc50q1ucs4f9o9q","type":"input","idx":1,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_ozd23z5qresgggrz3r","type":"input","idx":2,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_avsez3ymam81g7h25w","type":"input","idx":3,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_5xghxiw252kuiye7fb","type":"input","idx":4,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_24whgtq7il2nxm984b","type":"output","idx":0,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_ljixqp7nj3kny8dgbz","type":"output","idx":1,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_u16smodxl4ckgmmluh","type":"output","idx":2,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_soamjj1qrfkdbtr7tn","type":"output","idx":3,"blockerID":"_3t5xs1ff71m297xsba"},{"_id":"_4nh7b4sx43zoxubs8a","type":"output","idx":4,"blockerID":"_3t5xs1ff71m297xsba"}],"connections":[],"pickers":[]}'
+      '{"_id":"60aedaf6f7be030009663f23","blockers":[{"_id":"_8c0jvqe18jbxdrk5hy","position":[255.2089199661702,-0.0000012207030835043042,-89.75795344163646],"title":"demo.plane"},{"_id":"_736fru14yax62noee4","position":[-226.45059826399637,2.1731023348452482e-14,-97.86782865447015],"title":"demo.sweet"}],"ports":[{"_id":"_e74lbaby0gq7fhti02","type":"input","idx":0,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_b8n38umddo5d6e675c","type":"input","idx":1,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_jslx9xqxleh0gggoyl","type":"input","idx":2,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_03mubgjkc0hmjxxet6","type":"input","idx":3,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_zmyokvjucycivikg1y","type":"input","idx":4,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_3br5fqmtduyswqgg6a","type":"output","idx":0,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_nho42nyh20gzt4c0y8","type":"output","idx":1,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_603woen80646v57s6n","type":"output","idx":2,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_fsk9t4rh9lud9alj9m","type":"output","idx":3,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_boixinuhmcvjmvs6hn","type":"output","idx":4,"blockerID":"_8c0jvqe18jbxdrk5hy"},{"_id":"_yfo9id76ep6dal4ww6","type":"input","idx":0,"blockerID":"_736fru14yax62noee4"},{"_id":"_sb4ckrcjofxsgieo65","type":"input","idx":1,"blockerID":"_736fru14yax62noee4"},{"_id":"_e1fx84a1u2xw2pi8q8","type":"input","idx":2,"blockerID":"_736fru14yax62noee4"},{"_id":"_3c8j0cwjycmq47m5tx","type":"input","idx":3,"blockerID":"_736fru14yax62noee4"},{"_id":"_9bzg9zmo4ukvw6nm53","type":"input","idx":4,"blockerID":"_736fru14yax62noee4"},{"_id":"_syaygond09cxllndgf","type":"output","idx":0,"blockerID":"_736fru14yax62noee4"},{"_id":"_8wb3zo0d1lgezlw34i","type":"output","idx":1,"blockerID":"_736fru14yax62noee4"},{"_id":"_dlerzcn2qy16gpgw7v","type":"output","idx":2,"blockerID":"_736fru14yax62noee4"},{"_id":"_ze9t10t4ykzj15g17w","type":"output","idx":3,"blockerID":"_736fru14yax62noee4"},{"_id":"_ceodn9cvfstwyd5pv5","type":"output","idx":4,"blockerID":"_736fru14yax62noee4"}],"connections":[{"_id":"_1lef5teb3lybvf19hl","input":{"_id":"_e74lbaby0gq7fhti02","type":"input","idx":0,"blockerID":"_8c0jvqe18jbxdrk5hy"},"output":{"_id":"_syaygond09cxllndgf","type":"output","idx":0,"blockerID":"_736fru14yax62noee4"}}],"pickers":[]}'
   };
 };
 
@@ -100,6 +101,9 @@ export default function Home({ buildTimeCache }) {
 
         {/*  */}
         <EnvMap />
+
+        {/*  */}
+        {/* <Bloom /> */}
 
         {/* <Sphere position-x={-1} args={[1, 25, 25]}>
           <meshStandardMaterial

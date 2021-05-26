@@ -1,11 +1,11 @@
-import { useThree } from "@react-three/fiber";
-import { useEffect } from "react";
-import { PMREMGenerator, TextureLoader } from "three";
+import { useThree } from '@react-three/fiber';
+import { useEffect } from 'react';
+import { PMREMGenerator, TextureLoader, sRGBEncoding } from 'three';
 
 export function EnvMap() {
   // let RGBELoader = require("three/examples/jsm/loaders/RGBELoader.js")
   //   .RGBELoader;
-  let url = `/texture/adams_place_bridge_1k.png`;
+  let url = `https://source.unsplash.com/WLUHO9A_xik/1024x512`;
   let { scene, gl } = useThree();
   // let chroma = new ShaderCubeChrome({ res: 128, renderer: gl });
   // useEffect((state, dt) => {
@@ -19,8 +19,9 @@ export function EnvMap() {
 
     let loader = new TextureLoader();
     // loader.setDataType(UnsignedByteType);
-    loader.load(url, (texture) => {
+    loader.load(url, texture => {
       const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+      envMap.encoding = sRGBEncoding;
       scene.environment = envMap;
     });
 
@@ -30,5 +31,5 @@ export function EnvMap() {
     };
   }, []);
 
-  return null;
+  return <group />;
 }
