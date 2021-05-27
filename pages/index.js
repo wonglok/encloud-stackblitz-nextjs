@@ -75,7 +75,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       buildTimeCache
-    } // will be passed to the page component as props
+    }
   };
 }
 
@@ -103,24 +103,7 @@ export default function Home({ buildTimeCache }) {
         {/*  */}
         <Bloom />
 
-        {/* <Sphere position-x={-1} args={[1, 25, 25]}>
-          <meshStandardMaterial metalness={0.9} roughness={0.1} />
-        </Sphere> */}
-
-        {/* <Sphere position-x={-1} args={[1, 25, 25]}>
-          <meshStandardMaterial
-            metalness={0.9}
-            roughness={0.1}
-          ></meshStandardMaterial>
-        </Sphere>
-
-        <Box position-x={1} args={[2, 2, 2, 25, 25, 25]}>
-          <meshStandardMaterial
-            metalness={0.9}
-            roughness={0.1}
-          ></meshStandardMaterial>
-        </Box> */}
-
+        {/*  */}
         <OrbitControls />
       </Canvas>
     </div>
