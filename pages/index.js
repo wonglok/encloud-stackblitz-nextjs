@@ -29,8 +29,6 @@ let loadBattriesInFolder = () => {
   keys.forEach(key => {
     enBatteries.push(reqq(key));
   });
-
-  //
   return enBatteries;
 };
 
@@ -104,6 +102,10 @@ export default function Home({ buildTimeCache }) {
 
         {/*  */}
         <Bloom />
+
+        {/* <Sphere position-x={-1} args={[1, 25, 25]}>
+          <meshStandardMaterial metalness={0.9} roughness={0.1} />
+        </Sphere> */}
 
         {/* <Sphere position-x={-1} args={[1, 25, 25]}>
           <meshStandardMaterial
