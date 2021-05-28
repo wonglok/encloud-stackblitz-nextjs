@@ -1,24 +1,25 @@
-import { ENCloud } from "./ENCloud";
-import { ENMini } from "./ENMini";
-import { getID } from "./ENUtils";
+import { ENCloud } from './ENCloud';
+import { ENMini } from './ENMini';
+import { getID } from './ENUtils';
 
-export { BASEURL_REST, BASEURL_WS } from "./ENCloud";
+export { BASEURL_REST, BASEURL_WS } from './ENCloud';
 
 export class ENRuntime {
   constructor({
     projectJSON,
     userData = {},
     enBatteries = [],
-    autoStartLoop = true,
+    autoStartLoop = true
   }) {
     if (!projectJSON) {
-      throw new Error("NEEDS Project JSON");
+      throw new Error('NEEDS Project JSON');
     }
     this.fallBackJSON = projectJSON;
-    this.mini = new ENMini({ name: "ENProjectRuntime" });
+    this.mini = new ENMini({ name: 'ENProjectRuntime' });
     this.encloud = new ENCloud({
       fallbackJSON: this.fallBackJSON,
       mini: this.mini,
+      parent: this
     });
     this.projectJSON = false;
     this.autoStartLoop = autoStartLoop;
@@ -36,22 +37,22 @@ export class ENRuntime {
     //
     let runtimes = [];
     let Signatures = {
-      now: "now",
-      last: "last",
+      now: 'now',
+      last: 'last'
     };
 
     //
     let getSignature = () => {
       return JSON.stringify({
-        blockers: this.projectJSON.blockers.map((e) => {
+        blockers: this.projectJSON.blockers.map(e => {
           return [e._id, e.title];
         }),
-        ports: this.projectJSON.ports.map((e) => {
+        ports: this.projectJSON.ports.map(e => {
           return [e._id];
         }),
-        connections: this.projectJSON.connections.map((e) => {
+        connections: this.projectJSON.connections.map(e => {
           return [e._id, e.input._id, e.output._id];
-        }),
+        })
       });
     };
 
@@ -62,12 +63,12 @@ export class ENRuntime {
       let pickers = this.projectJSON.pickers;
 
       //
-      pickers.forEach((moduleObj) => {
-        moduleObj.pickers.forEach((pickerItem) => {
+      pickers.forEach(moduleObj => {
+        moduleObj.pickers.forEach(pickerItem => {
           if (activeListener.has(`${moduleObj.title}/${pickerItem.title}`)) {
             window.dispatchEvent(
               new CustomEvent(`${moduleObj.title}/${pickerItem.title}`, {
-                detail: pickerItem,
+                detail: pickerItem
               })
             );
           }
@@ -82,7 +83,7 @@ export class ENRuntime {
       Signatures.now = getSignature();
       if (Signatures.last !== Signatures.now) {
         Signatures.last = Signatures.now;
-        window.dispatchEvent(new CustomEvent("remake-graph"));
+        window.dispatchEvent(new CustomEvent('remake-graph'));
       }
     };
 
@@ -90,14 +91,14 @@ export class ENRuntime {
       tirggerRegraph();
     };
 
-    window.addEventListener("on-save", handleOnSave, false);
+    window.addEventListener('on-save', handleOnSave, false);
     this.mini.onClean(() => {
-      window.removeEventListener("on-save", handleOnSave);
+      window.removeEventListener('on-save', handleOnSave);
     });
 
-    window.addEventListener("project-arrive", handleArrival, false);
+    window.addEventListener('project-arrive', handleArrival, false);
     this.mini.onClean(() => {
-      window.removeEventListener("project-arrive", handleArrival);
+      window.removeEventListener('project-arrive', handleArrival);
     });
 
     this.mini.onClean(() => {
@@ -111,16 +112,13 @@ export class ENRuntime {
         mini.clean();
       });
 
-      runtimes.forEach((r) => {
-        runtimes.splice(
-          runtimes.findIndex((rr) => rr._id === r),
-          1
-        );
+      runtimes.forEach(r => {
+        runtimes.splice(runtimes.findIndex(rr => rr._id === r), 1);
       });
 
       runtimes.push(
         new CodeRuntime({
-          parent: this,
+          parent: this
         })
       );
       // setTimeout(() => {
@@ -132,12 +130,12 @@ export class ENRuntime {
       // }, 1000);
     };
 
-    window.addEventListener("remake-graph", remakeGraph, false);
+    window.addEventListener('remake-graph', remakeGraph, false);
     this.mini.onClean(() => {
-      window.removeEventListener("remake-graph", remakeGraph);
+      window.removeEventListener('remake-graph', remakeGraph);
     });
 
-    let makePicker = (moduleTitle) => {
+    let makePicker = moduleTitle => {
       let stream = (pickerTitle, fnc = () => {}) => {
         if (!activeListener.has(`${moduleTitle}/${pickerTitle}`)) {
           activeListener.set(`${moduleTitle}/${pickerTitle}`, true);
@@ -153,28 +151,28 @@ export class ENRuntime {
         });
 
         let ans = this.projectJSON?.pickers
-          ?.find((e) => e.title === moduleTitle)
-          ?.pickers?.find((e) => e.title === pickerTitle);
+          ?.find(e => e.title === moduleTitle)
+          ?.pickers?.find(e => e.title === pickerTitle);
         fnc(ans.value, ans);
       };
 
       let pickerAPI = {
         get: (tgOBJ, key) => {
           let pickerSet = this.projectJSON.pickers.find(
-            (e) => e.title === moduleTitle
+            e => e.title === moduleTitle
           );
           if (!pickerSet) {
-            throw new Error("cant find picker module", moduleTitle);
+            throw new Error('cant find picker module', moduleTitle);
           }
 
-          let obj = pickerSet.pickers.find((e) => e.title === key);
+          let obj = pickerSet.pickers.find(e => e.title === key);
 
-          obj.stream = (fnc) => {
+          obj.stream = fnc => {
             return stream(key, fnc);
           };
 
           return obj;
-        },
+        }
       };
 
       return new Proxy({}, pickerAPI);
@@ -185,7 +183,7 @@ export class ENRuntime {
     let pickerModAPI = {
       get: (obj, key) => {
         let pickers = this.projectJSON.pickers;
-        if (pickers.map((e) => e.title).includes(key)) {
+        if (pickers.map(e => e.title).includes(key)) {
           if (PickerCache.has(key)) {
             return PickerCache.get(key);
           }
@@ -193,14 +191,14 @@ export class ENRuntime {
           PickerCache.set(key, api);
           return api;
         } else {
-          throw new Error("No picker found");
+          throw new Error('No picker found');
         }
-      },
+      }
     };
 
     this.pickers = new Proxy({}, pickerModAPI);
     this.coreAPI = {
-      pickers: this.pickers,
+      pickers: this.pickers
     };
 
     let rAFID = 0;
@@ -228,10 +226,10 @@ export class CodeRuntime {
     let runtime = this;
 
     this.mini = new ENMini({
-      name: "ENGraphRuntime",
-      parentMini: this.parent.mini,
+      name: 'ENGraphRuntime',
+      parentMini: this.parent.mini
     });
-    this.mini.set("parent", parent);
+    this.mini.set('parent', parent);
     parent.mini.onLoop(() => {
       this.mini.work();
     });
@@ -244,7 +242,7 @@ export class CodeRuntime {
     let connections = this.parent.projectJSON.connections;
     let ports = this.parent.projectJSON.ports;
 
-    connections.forEach((conn) => {
+    connections.forEach(conn => {
       //
       let handlConn = ({ detail }) => {
         window.dispatchEvent(new CustomEvent(conn.input._id, { detail }));
@@ -256,16 +254,16 @@ export class CodeRuntime {
     });
 
     let queue = [];
-    blockers.forEach((b) => {
+    blockers.forEach(b => {
       //
-      let uFunc = parent.enBatteries.find((f) => f.title === b.title);
+      let uFunc = parent.enBatteries.find(f => f.title === b.title);
       let portsAPIMap = new Map();
 
-      let mode = "queue";
+      let mode = 'queue';
 
-      this.mini.ready["ready-all"].then(() => {
-        mode = "can-send";
-        queue.forEach((ev) => {
+      this.mini.ready['ready-all'].then(() => {
+        mode = 'can-send';
+        queue.forEach(ev => {
           window.dispatchEvent(
             new CustomEvent(ev.eventName, { detail: ev.detail })
           );
@@ -274,11 +272,11 @@ export class CodeRuntime {
 
       //
       ports
-        .filter((e) => e.blockerID === b._id)
-        .filter((e) => e.type === "input")
+        .filter(e => e.blockerID === b._id)
+        .filter(e => e.type === 'input')
         .map((e, idx) => {
           let api = {
-            stream: (onReceive) => {
+            stream: onReceive => {
               let hh = ({ detail }) => {
                 onReceive(detail);
               };
@@ -288,14 +286,14 @@ export class CodeRuntime {
               });
             },
             get ready() {
-              return new Promise((resolve) => {
+              return new Promise(resolve => {
                 let hh = ({ detail }) => {
                   resolve(detail);
                   window.removeEventListener(e._id, hh);
                 };
                 window.addEventListener(e._id, hh);
               });
-            },
+            }
           };
 
           portsAPIMap.set(`in${e.idx || idx}`, api);
@@ -304,21 +302,21 @@ export class CodeRuntime {
         });
 
       ports
-        .filter((e) => e.blockerID === b._id)
-        .filter((e) => e.type === "output")
+        .filter(e => e.blockerID === b._id)
+        .filter(e => e.type === 'output')
         .map((e, idx) => {
           let api = {
-            pulse: (data) => {
-              if (mode === "queue") {
+            pulse: data => {
+              if (mode === 'queue') {
                 queue.push({
                   eventName: e._id,
-                  detail: data,
+                  detail: data
                 });
-                console.log("queue how long", queue.length);
+                console.log('queue how long', queue.length);
               } else {
                 window.dispatchEvent(new CustomEvent(e._id, { detail: data }));
               }
-            },
+            }
           };
           portsAPIMap.set(`out${e.idx || idx}`, api);
 
@@ -326,12 +324,12 @@ export class CodeRuntime {
         });
 
       let prom = [];
-      if (uFunc && uFunc.effect && typeof uFunc.effect === "function") {
+      if (uFunc && uFunc.effect && typeof uFunc.effect === 'function') {
         let node = {
-          onClean: (v) => {
+          onClean: v => {
             runtime.mini.onClean(v);
           },
-          onLoop: (v) => {
+          onLoop: v => {
             runtime.mini.onLoop(v);
           },
 
@@ -342,35 +340,35 @@ export class CodeRuntime {
           //
           env: {
             get: runtime.mini.get,
-            set: runtime.mini.set,
+            set: runtime.mini.set
           },
           runtime: runtime,
           graphEngine: runtime.mini,
           pickers: this.parent.pickers,
-          userData: this.parent.userData,
+          userData: this.parent.userData
         };
         prom.push(
           uFunc.effect(
             new Proxy(node, {
               get: (obj, key) => {
                 //
-                if (key.indexOf("in") === 0 && !isNaN(key[2])) {
+                if (key.indexOf('in') === 0 && !isNaN(key[2])) {
                   return portsAPIMap.get(key);
                 }
 
-                if (key.indexOf("out") === 0 && !isNaN(key[3])) {
+                if (key.indexOf('out') === 0 && !isNaN(key[3])) {
                   return portsAPIMap.get(key);
                 }
 
                 return obj[key];
-              },
+              }
             })
           )
         );
       }
 
       Promise.all(prom).then(() => {
-        this.mini.set("ready-all", true);
+        this.mini.set('ready-all', true);
       });
     });
   }

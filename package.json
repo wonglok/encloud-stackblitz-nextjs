@@ -12,6 +12,7 @@
     "@react-three/drei": "^5.2.0",
     "@react-three/fiber": "^6.2.2",
     "next": "^10.2.3",
+    "nice-color-palettes": "^3.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-use-gesture": "^9.1.3",
