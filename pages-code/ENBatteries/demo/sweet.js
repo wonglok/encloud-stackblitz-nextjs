@@ -8,7 +8,7 @@ import {
 } from 'three';
 
 import { FolderName } from './index.js';
-import { enableBloom } from '../../Bloom/Bloom.js';
+import { enableBloom } from '../../Bloomer/Bloomer.js';
 
 export const title = `${FolderName}.sweet`;
 

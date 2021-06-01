@@ -13,10 +13,10 @@ import {
   RawShaderMaterial,
   ShaderMaterial,
   Vector2,
-  Vector3,
-} from "three";
-import { Geometry } from "three-stdlib";
-import { enableBloom } from "../../../Bloom/Bloom";
+  Vector3
+} from 'three';
+import { Geometry } from 'three-stdlib';
+import { enableBloom } from '../../../Bloomer/Bloomer';
 
 export class Noodle {
   constructor({ o3d, onLoop }) {
@@ -53,7 +53,7 @@ export class Noodle {
     count = 100,
     numSides = 8,
     subdivisions = 50,
-    openEnded = true,
+    openEnded = true
   }) {
     this.parent = this;
     // create a base CylinderGeometry which handles UVs, end caps and faces
@@ -120,9 +120,9 @@ export class Noodle {
 
     const lineGeo = new InstancedBufferGeometry();
     lineGeo.instanceCount = count;
-    lineGeo.setAttribute("position", new BufferAttribute(posArray, 1));
-    lineGeo.setAttribute("angle", new BufferAttribute(angleArray, 1));
-    lineGeo.setAttribute("uv", new BufferAttribute(uvArray, 2));
+    lineGeo.setAttribute('position', new BufferAttribute(posArray, 1));
+    lineGeo.setAttribute('angle', new BufferAttribute(angleArray, 1));
+    lineGeo.setAttribute('uv', new BufferAttribute(uvArray, 2));
 
     let offsets = [];
     let ddxyz = Math.ceil(Math.pow(count, 1 / 3));
@@ -136,7 +136,7 @@ export class Noodle {
 
     for (let i = 0; i < this.parent.ctrlPts; i++) {
       lineGeo.setAttribute(
-        "controlPoint" + i,
+        'controlPoint' + i,
         new InstancedBufferAttribute(
           new Float32Array(this.parent[`controlPoint${i}`]),
           3
@@ -144,7 +144,7 @@ export class Noodle {
       );
     }
     lineGeo.setAttribute(
-      "offset",
+      'offset',
       new InstancedBufferAttribute(new Float32Array(offsets), 3)
     );
 
@@ -170,21 +170,21 @@ export class Noodle {
     let ballGeo = new InstancedBufferGeometry();
     ballGeo.instanceCount = count;
     ballGeo.setAttribute(
-      "position",
+      'position',
       new BufferAttribute(ballBaseGeo.attributes.position.array, 3)
     );
     ballGeo.setAttribute(
-      "uv",
+      'uv',
       new BufferAttribute(ballBaseGeo.attributes.uv.array, 2)
     );
     ballGeo.setAttribute(
-      "normal",
+      'normal',
       new BufferAttribute(ballBaseGeo.attributes.normal.array, 3)
     );
 
     for (let i = 0; i < this.parent.ctrlPts; i++) {
       ballGeo.setAttribute(
-        "controlPoint" + i,
+        'controlPoint' + i,
         new InstancedBufferAttribute(
           new Float32Array(this.parent[`controlPoint${i}`]),
           3
@@ -192,13 +192,13 @@ export class Noodle {
       );
     }
     ballGeo.setAttribute(
-      "offset",
+      'offset',
       new InstancedBufferAttribute(new Float32Array(offsets), 3)
     );
 
     return {
       line: lineGeo,
-      ball: ballGeo,
+      ball: ballGeo
     };
   }
 
@@ -224,7 +224,7 @@ export class Noodle {
     let openEnded = false;
 
     let THREE = {
-      Vector3,
+      Vector3
     };
 
     // var simplex = new SimplexNoise();
@@ -235,9 +235,9 @@ export class Noodle {
       new THREE.Vector3(-134.64885922794912, 62.15766800538029, 0),
       new THREE.Vector3(-49.81632736411149, 65.64706142513052, 0),
       new THREE.Vector3(149.9073305786189, 109.11130887538985, 0),
-      new THREE.Vector3(126.56621702904124, -41.51438990875761, 0),
+      new THREE.Vector3(126.56621702904124, -41.51438990875761, 0)
     ];
-    path3.map((e) => e.multiplyScalar(Math.random()));
+    path3.map(e => e.multiplyScalar(Math.random()));
     let curve = new CatmullRomCurve3(path3, true);
 
     let out = new Vector3();
@@ -246,13 +246,13 @@ export class Noodle {
     let radius = (ee, type) => {
       ee = ee * Math.PI;
       let rr = 0.5;
-      if (type === "x") {
+      if (type === 'x') {
         return rr * Math.sin(ee) * Math.cos(ee) - 0.5;
       }
-      if (type === "z") {
+      if (type === 'z') {
         return rr * Math.sin(ee) * Math.sin(ee);
       }
-      if (type === "y") {
+      if (type === 'y') {
         return ee * 0.0;
       }
     };
@@ -278,9 +278,9 @@ export class Noodle {
             )
             .normalize();
 
-          out.x += this.momoRandomNess * radius(ee, "x");
-          out.y += this.momoRandomNess * radius(ee, "y");
-          out.z += this.momoRandomNess * radius(ee, "z");
+          out.x += this.momoRandomNess * radius(ee, 'x');
+          out.y += this.momoRandomNess * radius(ee, 'y');
+          out.z += this.momoRandomNess * radius(ee, 'z');
 
           euler.x = dir.x;
           euler.y = dir.y;
@@ -472,7 +472,7 @@ export class Noodle {
     //
     //
 
-    let getRollGLSL = ({ name = "CONTROL_POINTS" }) => {
+    let getRollGLSL = ({ name = 'CONTROL_POINTS' }) => {
       let ifthenelse = ``;
 
       // let intval = `${Number(this.ctrlPts).toFixed(0)}`
@@ -570,7 +570,7 @@ export class Noodle {
         attribute vec3 offset;
 
         ${makeLib()}
-        ${getRollGLSL({ name: "CTRL" })}
+        ${getRollGLSL({ name: 'CTRL' })}
         ${makeTubeGLSL()}
 
         varying float vT;
@@ -613,7 +613,7 @@ export class Noodle {
         uniform float linearProgress;
 
         ${makeLib()}
-        ${getRollGLSL({ name: "CTRL" })}
+        ${getRollGLSL({ name: 'CTRL' })}
         ${getCodeLooper()}
 
         mat4 translate (float x, float y, float z){
@@ -647,9 +647,9 @@ export class Noodle {
     let getLineMat = () => {
       return new RawShaderMaterial({
         uniforms: {
-          baseColor: { value: new Color("#ffcf0f") },
+          baseColor: { value: new Color('#ffcf0f') },
           time: { value: 0 },
-          linearProgress: { value: 0 },
+          linearProgress: { value: 0 }
         },
         transparent: true,
         side: DoubleSide,
@@ -664,17 +664,17 @@ export class Noodle {
           }
         `,
         defines: {
-          lengthSegments: subdivisions.toFixed(1),
-        },
+          lengthSegments: subdivisions.toFixed(1)
+        }
       });
     };
 
     let getBallMat = () => {
       return new ShaderMaterial({
         uniforms: {
-          baseColor: { value: new Color("#ffcf0f") },
+          baseColor: { value: new Color('#ffcf0f') },
           time: { value: 0 },
-          linearProgress: { value: 0 },
+          linearProgress: { value: 0 }
         },
         transparent: true,
         side: DoubleSide,
@@ -688,7 +688,7 @@ export class Noodle {
         `,
         defines: {
           // lengthSegments: subdivisions.toFixed(1)
-        },
+        }
       });
     };
 
@@ -697,7 +697,7 @@ export class Noodle {
       count,
       numSides,
       subdivisions,
-      openEnded,
+      openEnded
     });
 
     this.onLoop(() => {

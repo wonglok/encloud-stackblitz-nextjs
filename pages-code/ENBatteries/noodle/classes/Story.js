@@ -14,7 +14,7 @@ import {
   Vector3
 } from 'three';
 import { Geometry } from 'three-stdlib';
-import { enableBloom } from '../../../Bloom/Bloom';
+import { enableBloom } from '../../../Bloomer/Bloomer';
 var colors = require('nice-color-palettes');
 
 export class Story {
