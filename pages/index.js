@@ -6,8 +6,6 @@ import { ENRuntime, BASEURL_REST } from '../pages-code/ENCloudSDK/ENRuntime';
 import { EnvMap } from '../pages-code/EnvMap/EnvMap';
 import { Bloomer } from '../pages-code/Bloomer/Bloomer.js';
 
-//
-
 let getProjectJSON = () => {
   return {
     published: true,
